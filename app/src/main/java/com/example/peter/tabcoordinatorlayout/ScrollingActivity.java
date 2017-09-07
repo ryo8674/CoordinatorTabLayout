@@ -49,6 +49,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
     /**
      * onCreateOptionMenuメソッド。
+     * メニューに表示される項目を追加する
      *
      * @param menu menu
      * @return true
@@ -68,11 +69,6 @@ public class ScrollingActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return item.getItemId() == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 }

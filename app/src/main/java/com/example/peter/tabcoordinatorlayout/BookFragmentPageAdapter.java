@@ -5,21 +5,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * FragmentPagerAdapter
  *
  * @author ryo.yamada
  * @since 1.0 2017/08/03
  */
-public class BookFragmentPageAdapter extends FragmentPagerAdapter {
+class BookFragmentPageAdapter extends FragmentPagerAdapter {
 
-    private static final int CONST_ZERO = 0;
-    private static final int CONST_ONE = 1;
-    private static final int CONST_TWO = 2;
+    private static final int RECOMMEND_BOOK_PAGE = 0;
+    private static final int NEW_BOOK_PAGE = 1;
     private static final String RECOMMEND_BOOK = "おすすめ";
     private static final String NEW_BOOK = "最新刊";
-    private static final String AUTHOR = "author";
-    private static final String TITLE = "title";
+    private static final String BOOK = "book";
+
     /**
      * 著者名の配列
      */
@@ -47,6 +50,31 @@ public class BookFragmentPageAdapter extends FragmentPagerAdapter {
             "容疑者Xの献身", "ジョーカー・ゲーム", "半落ち", "葉桜の季節に君を想うということ", "ナイチンゲールの沈黙",
             "10角館の殺人", "ストロベリーナイト", "慟哭", "悪の教典", "カラスの親指", "13階段"};
 
+    /**
+     * Bookクラスのリストを返すメソッド
+     * pageで入れる値を切り替え
+     * @param page page
+     * @return Book型のList
+     */
+    private List<Book> getBookList(int page) {
+        List<Book> bookList = new ArrayList<>();
+        Book book;
+        switch (page) {
+            case NEW_BOOK_PAGE:
+                for (int i = 0; i < NEW_AUTHOR.length; i++) {
+                    book = new Book(NEW_AUTHOR[i], NEW_TITLE[i]);
+                    bookList.add(book);
+                }
+                break;
+            case RECOMMEND_BOOK_PAGE:
+                for (int i = 0; i < RECOMMEND_AUTHOR.length; i++) {
+                    book = new Book(RECOMMEND_AUTHOR[i], RECOMMEND_TITLE[i]);
+                    bookList.add(book);
+                }
+                break;
+        }
+        return bookList;
+    }
 
     /**
      * タブ名
@@ -70,23 +98,9 @@ public class BookFragmentPageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment fragment = MainFragment.newInstance();
         Bundle bundle = new Bundle();
-        switch (position) {
-            case CONST_ZERO:
-                bundle.putStringArray(AUTHOR, RECOMMEND_AUTHOR);
-                bundle.putStringArray(TITLE, RECOMMEND_TITLE);
-                fragment.setArguments(bundle);
-                break;
-            case CONST_ONE:
-                bundle.putStringArray(AUTHOR, NEW_AUTHOR);
-                bundle.putStringArray(TITLE, NEW_TITLE);
-                fragment.setArguments(bundle);
-                break;
-            default:
-                bundle.putStringArray(AUTHOR, RECOMMEND_AUTHOR);
-                bundle.putStringArray(TITLE, RECOMMEND_TITLE);
-                fragment.setArguments(bundle);
-                break;
-        }
+        bundle.putSerializable(BOOK, (Serializable) getBookList(position));
+        fragment.setArguments(bundle);
+
         return fragment;
     }
 
@@ -97,7 +111,7 @@ public class BookFragmentPageAdapter extends FragmentPagerAdapter {
      */
     @Override
     public int getCount() {
-        return CONST_TWO;
+        return TAB_NAME.length;
     }
 
     /**

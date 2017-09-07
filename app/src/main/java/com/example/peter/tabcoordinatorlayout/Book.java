@@ -20,17 +20,11 @@ class Book {
 
     /**
      * コンストラクタ
-     */
-    Book() {
-    }
-
-    /**
-     * コンストラクタ
      *
      * @param author 著者名
      * @param title  タイトル
      */
-    public Book(String author, String title) {
+    Book(String author, String title) {
         this.author = author;
         this.title = title;
     }

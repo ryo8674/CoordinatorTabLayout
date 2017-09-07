@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,8 +20,7 @@ import java.util.List;
  */
 public class MainFragment extends Fragment {
 
-    private static final String AUTHOR = "author";
-    private static final String TITLE = "title";
+    private static final String BOOK = "book";
 
     /**
      * インスタンスを生成する。
@@ -42,18 +40,9 @@ public class MainFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        List<Book> newBookList = new ArrayList<>();
         Bundle bundle = getArguments();
-        String[] author = bundle.getStringArray(AUTHOR);
-        String[] title = bundle.getStringArray(TITLE);
-        Book book;
-
-        for (int i = 0; i < author.length; i++) {
-            book = new Book();
-            book.setAuthor(author[i]);
-            book.setTitle(title[i]);
-            newBookList.add(book);
-        }
+        //noinspection unchecked
+        List<Book> newBookList = (List<Book>) bundle.getSerializable(BOOK);
 
         BookListAdapter adapter = new BookListAdapter(getContext(), R.layout.activity_scrolling, newBookList);
         ListView listView = view.findViewById(R.id.list_view);

@@ -23,11 +23,11 @@ class BookListAdapter extends ArrayAdapter<Book> {
     /**
      * 本のリスト
      */
-    private List<Book> bookList;
+    private final List<Book> bookList;
     /**
      * LayoutInflater
      */
-    private LayoutInflater layoutInflater;
+    private final LayoutInflater layoutInflater;
 
     /**
      * コンストラクタ
@@ -36,7 +36,7 @@ class BookListAdapter extends ArrayAdapter<Book> {
      * @param resourceId リソースID
      * @param bookList   データのリスト
      */
-    public BookListAdapter(Context context, int resourceId, List<Book> bookList) {
+    BookListAdapter(Context context, int resourceId, List<Book> bookList) {
         super(context, resourceId, bookList);
         this.bookList = new ArrayList<>();
         this.bookList.addAll(bookList);
